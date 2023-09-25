@@ -1,0 +1,41 @@
+.film-name{
+    font-size: 1.2em;
+    font-weight: bold;
+    color: darkgreen;
+}
+
+.film-year{
+    color: #FF0000;
+}
+
+.film-country{
+    font-size: 0.8em;
+    color: purple;
+}
+
+td, th{
+    border-style: solid;
+    border-color: #000000;
+    border-width: 1px;
+}
+
+th{
+    background-color: #c0c0c0;
+    font-weight: bold;
+}
+.row{
+    background-color: #f2f2f2;
+    text-align: center;
+}
+
+header{
+    margin-bottom: 40px;
+}
+
+form[name="actors-filter"]{
+    margin-left: 150px;
+}
+
+input[name="actor_name_filter"]{
+    width: 150px;
+}

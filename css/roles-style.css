@@ -1,0 +1,11 @@
+.main-role{
+    background-color: #ADD8E6;
+}
+
+.support-role{
+    background-color: #FFC0CB;
+}
+
+.main-role, .support-role{
+    text-align: center;
+}
