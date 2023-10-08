@@ -59,3 +59,20 @@ input[name="actor_name_filter"]{
 .control{
     margin-bottom: 20px;
 }
+
+.user-info{
+    text-align: right;
+    font-size: 16pt;
+    margin-bottom: 20px;
+}
+
+.user-info a{
+    color: blue;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+.user-info a:hover{
+    color: skyblue;
+    font-weight: bold;
+}
