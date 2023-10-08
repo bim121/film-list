@@ -33,9 +33,29 @@ header{
 }
 
 form[name="actors-filter"]{
-    margin-left: 150px;
+    margin: 0px 7px 0px 7px;
 }
 
 input[name="actor_name_filter"]{
     width: 150px;
+}
+
+.control a{
+    font-size: 12pt;
+    color: blue;
+    text-decoration: none;
+    border: 1px blue solid;
+    border-radius: 3px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.control a:hover{
+    color: skyblue;
+    font-weight: bold;
+    border: 2px skyblue solid;
+}
+
+.control{
+    margin-bottom: 20px;
 }

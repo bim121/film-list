@@ -1,6 +1,6 @@
 <?php
     if($_POST){
-        $file = fopen("../data/film/" . $_GET['file'], "w");
+        $file = fopen("../data/" . $_GET['film'] . "/" . $_GET['file'], "w");
         $worldClass = 0;
         if($_POST['actor_worldClass'] == 1){
             $worldClass = 1;
@@ -9,10 +9,10 @@
         $fStr=implode(";", $fArr);
         fwrite($file, $fStr);
         fclose($file);
-        header('Location: ../index.php');
+        header('Location: ../index.php?film=' . $_GET['film']);
     }
 
-    $path = __DIR__ . "/../data/film";
+    $path = __DIR__ . "/../data/" . $_GET['film'];
     $node = $_GET['file'];
     $actor = require __DIR__ . '/../data/declare-actor.php';
 ?>

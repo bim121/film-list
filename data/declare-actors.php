@@ -1,6 +1,6 @@
 <?php 
     $nameTpl = '/^actor-\d\d.txt\z/';
-    $path = __DIR__ . "/film";
+    $path = __DIR__ . "/" . $filmFolder;
     $conts = scandir($path);
 
     $i = 0;

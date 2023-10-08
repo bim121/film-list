@@ -1,7 +1,7 @@
 <?php
     if($_POST){
         $nameTpl = '/^actor-\d\d.txt\z/';
-        $path = __DIR__ . "/../data/film";
+        $path = __DIR__ . "/../data/" . $_GET['film'];
         $conts = scandir($path);
         $i = 0;
         foreach($conts as $node){
@@ -17,7 +17,7 @@
 
         $newFileName = "actor-" . $file_index . ".txt";
 
-        $file= fopen("../data/film/" . $newFileName, "w");
+        $file= fopen("../data/" . $_GET['film'] . "/" . $newFileName, "w");
         $worldClass = 0;
         if($_POST['actor_worldClass' == 1]){
             $worldClass = 1;
@@ -26,7 +26,7 @@
         $fStr = implode(";", $fArr);
         fwrite($file, $fStr);
         fclose($file);
-        header('Location: ../index.php');
+        header('Location: ../index.php?film' . $_GET['film']);
     }
 ?>
 

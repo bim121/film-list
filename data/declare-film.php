@@ -1,7 +1,5 @@
 <?php 
-    $data = array();
-
-    $file = fopen(__DIR__ . "/film/film.txt", 'r');
+    $file = fopen(__DIR__ . "/" . $filmFolder . "/film.txt", 'r');
     $fStr = fgets($file);
     $fArr = explode(";", $fStr);
     fclose($file);

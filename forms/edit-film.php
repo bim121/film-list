@@ -1,12 +1,13 @@
 <?php
     if($_POST){
-        $file = fopen("../data/film/film.txt", 'w');
+        $file = fopen("../data/" . $_GET['film'] . "/film.txt", 'w');
         $fArr = array($_POST['name'], $_POST['year'], $_POST['country']);
         $fStr = implode(";", $fArr);
         fwrite($file, $fStr);
         fclose($file);
-        header("Location: ../index.php");
+        header("Location: ../index.php?film=" . $_GET['film']);
     }
+    $filmFolder = $_GET['film'];
     require('../data/declare-film.php');
 ?>
 
