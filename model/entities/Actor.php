@@ -48,7 +48,7 @@
         public function getFilmId(){
             return $this->filmId;
         }
-        public function setFilm($filmId){
+        public function setFilmId($filmId){
             $this->filmId = $filmId;
             return $this;
         }

@@ -1,18 +1,24 @@
 <?php
     include(__DIR__ . '/../auth/check-auth.php');
-    if(!CheckRight('film', 'edit')){
-        die("Ви не маєте права на виконання цієї операції");
-    }
+    require_once '../model/autorun.php';
+    $myModel = Model\Data::makeModel(Model\Data::FILE);
+    $myModel->setCurrentUser($_SESSION['user']);
+
     if($_POST){
-        $file = fopen("../data/" . $_GET['film'] . "/film.txt", 'w');
-        $fArr = array($_POST['name'], $_POST['year'], $_POST['country']);
-        $fStr = implode(";", $fArr);
-        fwrite($file, $fStr);
-        fclose($file);
-        header("Location: ../index.php?film=" . $_GET['film']);
+      if(!$myModel->writeFilm((new \Model\Film())
+        ->setId($_GET['film'])
+        ->setName($_POST['name'])
+        ->setYear($_POST['year'])
+        ->setCountry($_POST['country'])
+      )) {
+        die($myModel->getError());
+      } else {
+        header('Location: ../index.php?film=' . $_GET['film']);
+      }
     }
-    $filmFolder = $_GET['film'];
-    require('../data/declare-film.php');
+    if(!$data['film'] = $myModel->readFilm($_GET['film'])){
+        die($myModel->getError());
+    }
 ?>
 
 <!DOCTYPE html>
@@ -27,11 +33,11 @@
     <a href="../index.php">На головну</a>
     <form name="edit-film" method="post">
         <div><label for="name">Назва Фільму: </label><input type="text" name="name"
-            value="<?php echo $data['film']['name']; ?>"></div>
+            value="<?php echo $data['film']->getName(); ?>"></div>
         <div><label for="year">Рік виходу: </label><input type="text" name="year"
-            value="<?php echo $data['film']['year']; ?>"></div>
+            value="<?php echo $data['film']->getYear(); ?>"></div>
         <div><label for="country">Країна: </label><input type="text" name="country"
-            value="<?php echo $data['film']['country']; ?>"></div>
+            value="<?php echo $data['film']->getCountry(); ?>"></div>
         <div><input type="submit" name="ok" value="змінити"></div>
     </form>    
 </body>

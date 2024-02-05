@@ -1,24 +1,26 @@
 <?php
     include(__DIR__ . '/../auth/check-auth.php');
-    if(!CheckRight('actor', 'edit')){
-        die("Ви не маєте права на виконання цієї операції");
-    }
+   
+    require_once '../model/autorun.php';
+    $myModel = Model\Data::makeModel(Model\Data::FILE);
+    $myModel->setCurrentUser($_SESSION['user']);
+
     if($_POST){
-        $file = fopen("../data/" . $_GET['film'] . "/" . $_GET['file'], "w");
-        $worldClass = 0;
-        if($_POST['actor_worldClass'] == 1){
-            $worldClass = 1;
+        $actor = (new \Model\Actor())
+            ->setId($_GET['file'])
+            ->setFilmId($_GET['film'])
+            ->setName($_POST['actor_name'])
+            ->setRoles($_POST['actor_roles'])
+            ->setEpisode($_POST['actor_episodes'])
+            ->setWorldClass($_POST['actor_worldClass']);
+        if(!$myModel->writeActor($actor)){
+            die($myModel->getError());
+        }else{
+            header('Location: ../index.php?film=' . $_GET['film']);
         }
-        $fArr = array($_POST['actor_name'], $_POST['actor_roles'], $_POST['actor_episodes'], $worldClass,);
-        $fStr=implode(";", $fArr);
-        fwrite($file, $fStr);
-        fclose($file);
-        header('Location: ../index.php?film=' . $_GET['film']);
     }
 
-    $path = __DIR__ . "/../data/" . $_GET['film'];
-    $node = $_GET['file'];
-    $actor = require __DIR__ . '/../data/declare-actor.php';
+    $actor = $myModel->readActor($_GET['film'], $_GET['file']);
 ?>
 
 <!DOCTYPE html>
@@ -34,22 +36,22 @@
     <form name="edit-student" method="post">
         <div>
             <label for="actor_name"></label>
-            <input type="text" name="actor_name" value='<?php echo $actor['name'] ?>' >
+            <input type="text" name="actor_name" value='<?php echo $actor->getName(); ?>' >
         </div>
         <div>
             <label for="actor_roles"></label>
             <select name="actor_roles">
                 <option disabled>Roles</option>
-                <option  <?php echo ("main" == $actor['roles']) ? "selected": ""; ?> value="main">main roles</option>
-                <option <?php echo ("supporting actor" == $actor['roles']) ? "selected": ""; ?> value="supporting actor">support roles</option>
+                <option  <?php echo ("main" == $actor->getRoles()) ? "selected": ""; ?> value="main">main roles</option>
+                <option <?php echo ("supporting actor" == $actor->getRoles()) ? "selected": ""; ?> value="supporting actor">support roles</option>
             </select>
         </div>
         <div>
             <label for="actor_episodes">Episode: </label>
-            <input type="number" name="actor_episodes" value='<?php echo $actor['episode']; ?>'>
+            <input type="number" name="actor_episodes" value='<?php echo $actor->getEpisode();; ?>'>
         </div>
         <div>
-            <input type="checkbox" <?php echo ("1" == $actor["worldClass"])?"checked" : ""; ?> name="actor_worldClass"> world class
+            <input type="checkbox" <?php echo ("1" == $actor->getWorldClass())?"checked" : ""; ?> name="actor_worldClass"> world class
         </div>
         <div><input type="submit" name="ok" value="Змінити"></div>
     </form>

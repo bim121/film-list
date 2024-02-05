@@ -1,15 +1,13 @@
 <?php
-    include(__DIR__ . '/../auth/check-auth.php');
-    if(!CheckRight('film', 'delete')){
-        die("Ви не маєте права на виконання цієї операції");
-    }
-    $dirName = "../data/" . $_GET['film'];
-    $conts = scandir($dirName);
-    $i = 0;
+    include(__DIR__ . "/../auth/check-auth.php");
 
-    foreach($conts as $node){
-        @unlink($dirName . "/" . $node);
+    require_once '../model/autorun.php';
+    $myModel = Model\Data::makeModel(Model\Data::FILE);
+    $myModel->setCurrentUser($_SESSION['user']);
+
+    if(!$myModel->removeFilm($_GET['film'])){
+        die($myModel->getError());
+    }else{
+        header('Location: ../index.php');
     }
-    @rmdir($dirName);
-    header("Location: ../index.php");
 ?>

@@ -1,37 +1,22 @@
 <?php
     include(__DIR__ . '/../auth/check-auth.php');
-    if(!CheckRight('actor', 'create')){
-        die("Ви не маєте права на виконання цієї операції");
-    }
 
     if($_POST){
-        $nameTpl = '/^actor-\d\d.txt\z/';
-        $path = __DIR__ . "/../data/" . $_GET['film'];
-        $conts = scandir($path);
-        $i = 0;
-        foreach($conts as $node){
-            if(preg_match($nameTpl, $node)){
-                $last_file = $node;
-            }
-        }
+       require_once '../model/autorun.php';
+       $myModel = Model\Data::makeModel(Model\Data::FILE);
+       $myModel->setCurrentUser($_SESSION['user']);
 
-        $file_index = (String)(((int)substr($last_file, -6, 2)) + 1);
-        if(strlen($file_index) == 1){
-            $file_index = "0" . $file_index;
+       $actor = (new \Model\Actor())
+            ->setFilmId($_GET['film'])
+            ->setName($_POST['actor_name'])
+            ->setRoles($_POST['actor_roles'])
+            ->setEpisode($_POST['actor_episodes'])
+            ->setWorldClass($_POST['actor_worldClass']);
+        if(!$myModel->addActor($actor)){
+            die($myModel->getError());
+        }else{
+            header('Location: ../index.php?film=' . $_GET['film']);
         }
-
-        $newFileName = "actor-" . $file_index . ".txt";
-
-        $file= fopen("../data/" . $_GET['film'] . "/" . $newFileName, "w");
-        $worldClass = 0;
-        if($_POST['actor_worldClass' == 1]){
-            $worldClass = 1;
-        }
-        $fArr = array($_POST['actor_name'], $_POST['actor_roles'], $_POST['actor_episodes'], $worldClass, );
-        $fStr = implode(";", $fArr);
-        fwrite($file, $fStr);
-        fclose($file);
-        header('Location: ../index.php?film' . $_GET['film']);
     }
 ?>
 
