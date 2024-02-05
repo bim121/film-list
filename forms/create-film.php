@@ -1,4 +1,9 @@
 <?php
+    include(__DIR__ . '/../auth/check-auth.php');
+    if(!CheckRight('film', 'create')){
+        die("Ви не маєте права на виконання цієї операції");
+    }
+
     $nameTpl = '/^film-\d\d\z/';
     $path = __DIR__ . "/../data";
     $conts = scandir($path);

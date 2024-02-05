@@ -1,4 +1,8 @@
 <?php
+    include(__DIR__ . '/../auth/check-auth.php');
+    if(!CheckRight('actor', 'edit')){
+        die("Ви не маєте права на виконання цієї операції");
+    }
     if($_POST){
         $file = fopen("../data/" . $_GET['film'] . "/" . $_GET['file'], "w");
         $worldClass = 0;

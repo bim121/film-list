@@ -1,4 +1,9 @@
 <?php
+    include(__DIR__ . '/../auth/check-auth.php');
+    if(!CheckRight('actor', 'create')){
+        die("Ви не маєте права на виконання цієї операції");
+    }
+
     if($_POST){
         $nameTpl = '/^actor-\d\d.txt\z/';
         $path = __DIR__ . "/../data/" . $_GET['film'];

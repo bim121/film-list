@@ -1,4 +1,8 @@
 <?php
+    include(__DIR__ . '/../auth/check-auth.php');
+    if(!CheckRight('film', 'edit')){
+        die("Ви не маєте права на виконання цієї операції");
+    }
     if($_POST){
         $file = fopen("../data/" . $_GET['film'] . "/film.txt", 'w');
         $fArr = array($_POST['name'], $_POST['year'], $_POST['country']);
