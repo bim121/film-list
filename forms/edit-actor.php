@@ -21,39 +21,11 @@
     }
 
     $actor = $myModel->readActor($_GET['film'], $_GET['file']);
-?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Редагування актора</title>
-    <link rel="stylesheet" href="../css/edit-actor-style.css">
-</head>
-<body>
-    <a href="../index.php">На головну</a>
-    <form name="edit-student" method="post">
-        <div>
-            <label for="actor_name"></label>
-            <input type="text" name="actor_name" value='<?php echo $actor->getName(); ?>' >
-        </div>
-        <div>
-            <label for="actor_roles"></label>
-            <select name="actor_roles">
-                <option disabled>Roles</option>
-                <option  <?php echo ("main" == $actor->getRoles()) ? "selected": ""; ?> value="main">main roles</option>
-                <option <?php echo ("supporting actor" == $actor->getRoles()) ? "selected": ""; ?> value="supporting actor">support roles</option>
-            </select>
-        </div>
-        <div>
-            <label for="actor_episodes">Episode: </label>
-            <input type="number" name="actor_episodes" value='<?php echo $actor->getEpisode();; ?>'>
-        </div>
-        <div>
-            <input type="checkbox" <?php echo ("1" == $actor->getWorldClass())?"checked" : ""; ?> name="actor_worldClass"> world class
-        </div>
-        <div><input type="submit" name="ok" value="Змінити"></div>
-    </form>
-</body>
-</html>
+    require_once '../view/autorun.php';
+
+    $myView = \View\FilmListView::makeView(\View\FilmListView::SIMPLEVIEW);
+    $myView->setCurrentUser($myModel->getCurrentUser());
+
+    $myView->showActorEditForm($actor);
+?>

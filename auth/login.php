@@ -10,27 +10,9 @@
             }
         }
     }
-?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Аутентифікації</title>
-    <link rel="stylesheet" type="text/css" href="../css/login-style.css">
-</head>
-<body>
-    <form method="post">
-        <p>
-            <input align="center" type="text" name="username" placeholder="username">
-        </p>
-        <p>
-            <input type="password" name="password" placeholder="password">
-        </p>
-        <p>
-            <input type="submit" value="login">
-        </p>
-    </form>
-</body>
-</html>
+    require_once '../view/autorun.php';
+    $myView = \View\FilmListView::makeView(\View\FilmListView::SIMPLEVIEW);
+
+    $myView->showLoginForm();
+?>

@@ -19,26 +19,15 @@
     if(!$data['film'] = $myModel->readFilm($_GET['film'])){
         die($myModel->getError());
     }
-?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/edit-film-style.css">
-    <title>Редагування фільму</title>
-</head>
-<body>
-    <a href="../index.php">На головну</a>
-    <form name="edit-film" method="post">
-        <div><label for="name">Назва Фільму: </label><input type="text" name="name"
-            value="<?php echo $data['film']->getName(); ?>"></div>
-        <div><label for="year">Рік виходу: </label><input type="text" name="year"
-            value="<?php echo $data['film']->getYear(); ?>"></div>
-        <div><label for="country">Країна: </label><input type="text" name="country"
-            value="<?php echo $data['film']->getCountry(); ?>"></div>
-        <div><input type="submit" name="ok" value="змінити"></div>
-    </form>    
-</body>
-</html>
+    $film = new \Model\Film();
+    if($_GET['film'] && $myModel->checkRight('film', 'edit')){
+        $film = $myModel->readFilm($_GET['film']);
+    }
+
+    require_once '../view/autorun.php';
+    $myView = \View\FilmListView::makeView(\View\FilmListView::SIMPLEVIEW);
+    $myView->setCurrentUser($myModel->getCurrentUser());
+
+    $myView->showFilmEditForm($film);
+?>
