@@ -16,7 +16,7 @@
                 </select>
                 <input type="submit" value="ok">
                 <?php if($this->CheckRight('film', 'create')):?>
-                    <a href="forms/create-film.php">Додати фільм</a>
+                    <a href="?action=create-film">Додати фільм</a>
                 <?php endif; ?>
             </form>
             <?php
@@ -29,10 +29,10 @@
             <h3>Країна: <span class="film-country"><?php echo $film->getCountry(); ?></span></h3>
             <div class="control">
                 <?php if($this->CheckRight('film', 'edit')):?>
-                    <a href="./forms/edit-film.php?film=<?php echo $_GET['film']; ?>">Редагувати фільм</a>
+                    <a href="?action=edit-film-form&film=<?php echo $_GET['film']; ?>">Редагувати фільм</a>
                 <?php endif; ?>
                 <?php if($this->CheckRight('film', 'delete')):?>
-                    <a href="./forms/delete-film.php?film=<?php echo $_GET['film']; ?>">Видалити фільм</a>
+                    <a href="?action=delete-film&film=<?php echo $_GET['film']; ?>">Видалити фільм</a>
                 <?php endif; ?>
             </div>
             <?php
@@ -44,7 +44,7 @@
                     <?php if($_GET['film']): ?>
                         <?php if($this->CheckRight("actor", 'create')):?>
                             <div class="control">
-                                <a href="./forms/create-actor.php?film=<?php echo $_GET['film'] ?>">Додати актера</a>
+                                <a href="?action=create-actor-form&film=<?php echo $_GET['film'] ?>">Додати актера</a>
                             </div>
                         <?php endif; ?>
                         <form name="actors-filter" method="post">
@@ -80,12 +80,12 @@
                                                 <td><?php echo $actor->getEpisode(); ?></td>
                                                 <td>
                                                     <?php if($this->CheckRight("actor", 'edit')):?>
-                                                        <a href="./forms/edit-actor.php?film=<?php
+                                                        <a href="?action=edit-actor-form&film=<?php
                                                         echo $_GET['film']; ?>&file=<?php echo $actor->getId();?>">
                                                         Редагувати</a>
                                                     <?php endif; ?>
                                                         <?php if($this->CheckRight("actor", 'delete')):?>
-                                                        <a href="./forms/delete-actor.php?film=<?php
+                                                        <a href="?action=delete-actor&film=<?php
                                                         echo $_GET['film']; ?>&file=<?php echo $actor->getId(); ?>">
                                                         Видалити</a>
                                                     <?php endif?>
@@ -107,18 +107,18 @@
                 <html>
                     <head>
                         <title>Список фільмів</title>
-                        <link rel="stylesheet" type="text/css" href="../css/main-style.css">
-                        <link rel="stylesheet" type="text/css" href="../css/roles-style.css">
-                        <link rel="stylesheet" type="text/css" href="../css/film-choose-style.css">
+                        <link rel="stylesheet" type="text/css" href="css/main-style.css">
+                        <link rel="stylesheet" type="text/css" href="css/roles-style.css">
+                        <link rel="stylesheet" type="text/css" href="css/film-choose-style.css">
                     </head>
                     <body>
                         <header>
                             <div class="user-info">
                                 <span>Hello <?php echo $_SESSION['user']; ?> !</span>
                                 <?php if ($this->checkRight('user', 'admin')): ?>
-                                    <a href="admin/index.php">Адміністрування</a>
+                                    <a href="?action=admin">Адміністрування</a>
                                 <?php endif; ?>
-                                <a href="auth/logout.php">Logout</a>
+                                <a href="?action=logout">Logout</a>
                             </div>
                             <?php 
                                 if($this->checkRight('film', 'view')){
@@ -145,11 +145,11 @@
                 <html>
                     <head>
                         <title>Редагування фільму</title>
-                        <link rel="stylesheet" type="text/css" href="../css/edit-film-style.css">
+                        <link rel="stylesheet" type="text/css" href="css/edit-film-style.css">
                     </head>
                     <body>
-                        <a href="../index.php">На головну</a>
-                        <form name="edit-film" method="post">
+                        <a href="../index.php?film=<?php echo $_GET['film'];?>">На головну</a>
+                        <form name="edit-film" method="post" action="?action=edit-film&film=<?php echo $_GET['film'];?>">
                             <div><label for="name">Назва Фільму: </label><input type="text" name="name"
                                 value="<?php echo $film->getName(); ?>"></div>
                             <div><label for="year">Рік виходу: </label><input type="text" name="year"
@@ -169,11 +169,11 @@
                 <html>
                     <head>
                         <title>Редагування актора</title>
-                        <link rel="stylesheet" type="text/css" href="../css/edit-actor-style.css">
+                        <link rel="stylesheet" type="text/css" href="css/edit-actor-style.css">
                     </head>
                     <body>
-                        <a href="../index.php">На головну</a>
-                            <form name="edit-student" method="post">
+                        <a href="index.php?film=<?php echo $_GET['film'];?>">На головну</a>
+                            <form name="edit-student" method="post" action="?action=edit-actor&file=<?php echo $_GET['file'];?>&film=<?php echo $_GET['film'];?>">
                                 <div>
                                     <label for="actor_name"></label>
                                     <input type="text" name="actor_name" value='<?php echo $actor->getName(); ?>' >
@@ -206,11 +206,11 @@
                 <html lang="en">
                     <head>
                         <title>Додавання актора</title>
-                        <link rel="stylesheet" href="../css/edit-actor-style.css">
+                        <link rel="stylesheet" href="/css/edit-actor-style.css">
                     </head>
                     <body>
-                    <a href="../index.php">На головну</a>
-                        <form name="edit-student" method="post">
+                    <a href="?film=<?php echo $_GET['film'];?>">На головну</a>
+                        <form name="edit-student" method="post" action="?action=create-actor&film=<?php echo $_GET['film']; ?>">
                             <div>
                                 <label for="actor_name"></label>
                                 <input type="text" name="actor_name" >
@@ -243,10 +243,10 @@
                 <html lang="en">
                     <head>
                         <title>Аутентифікації</title>
-                        <link rel="stylesheet" type="text/css" href="../css/login-style.css">
+                        <link rel="stylesheet" type="text/css" href="/css/login-style.css">
                     </head>
                     <body>
-                        <form method="post">
+                        <form method="post" action="?action=checkLogin">
                             <p>
                                 <input align="center" type="text" name="username" placeholder="username">
                             </p>
@@ -273,9 +273,9 @@
                     </head>
                     <body>
                         <header>
-                            <a href="../index.php">На головну</a>
+                            <a href="index.php">На головну</a>
                             <h1>Адміністуванян користувачів</h1>
-                            <link rel="stylesheet" type="text/css" href="../css/main-style.css">
+                            <link rel="stylesheet" type="text/css" href="css/main-style.css">
                         </header>
                         <section>
                             <table>
@@ -289,7 +289,7 @@
                                         <?php if($user->getUserName() != $_SESSION['user'] && $user->getUserName() != 'admin' && trim($user->getUserName()) != ''): ?>
                                             <tr>
                                                 <td>
-                                                    <a href = "edit-user.php?username=<?php echo $user->getUserName(); ?>"><?php echo $user->getUserName(); ?></a>
+                                                    <a href = "action=edit-user-form&username=<?php echo $user->getUserName(); ?>"><?php echo $user->getUserName(); ?></a>
                                                 </td>
                                             </tr>
                                         <?php endif ?>
@@ -309,12 +309,12 @@
                     <head>
                         <meta charset="UTF-8">
                         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <link rel="stylesheet" type="text/css" href="../css/admin.css">
+                        <link rel="stylesheet" type="text/css" href="admin.css">
                         <title>Редагування користувача</title>
                     </head>
                     <body>
-                        <a href="index.php">До списку користувачів</a>
-                        <form name="edit-user" method="post">
+                        <a href="?action=admin">До списку користувачів</a>
+                        <form name="edit-user" method="post" action="?action=edit-user&user=<?php echo $_GET['user']; ?>">
                             <div class="tbl">
                                 <div>
                                     <label for="user_name">Username: </label>
